@@ -1,6 +1,7 @@
 package customers;
 
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 public class Application {
 
@@ -18,14 +19,45 @@ public class Application {
 		customerCollection.add(new Customer("Frank","Cohen","fcohen@gmail.com","0643232178",53, new Address("Jeffersen Av 3","New York","54221")));
 		customerCollection.add(new Customer("Eric","Johnson","ejohnson@hotmail.com","0612342345",36, new Address("1000 S 4th street","San Fransisco","12544")));
 
-		//implementing the age iterator
-		Iterator iterator = customerCollection.iterator();
+		//Age iterator
+		System.out.println("-------------Age Iterator-------------");
 
+		Iterator iterator = customerCollection.ageIterator();
 		while (iterator.hasNext()) {
-			//customerCollection.print();
 			System.out.println(iterator.next());
 		}
 
-	}
+		//Filter iterator
+		System.out.println();
+		System.out.println("---------Filter Iterator---------------");
+		System.out.println("------Customers from Chicago-----------");
+		System.out.println();
 
+		Predicate<Customer> firstPredicate = c-> c.getAddress().getCity().equalsIgnoreCase("Chicago");
+		Iterator iterator1 = customerCollection.filterIterator(firstPredicate);
+
+		while (iterator1.hasNext()) {
+			System.out.println(iterator1.next());
+		}
+		System.out.println();
+		System.out.println("------Zip code starts with 12----------");
+
+		Predicate<Customer> secondPredicate = c-> c.getAddress().getZip().startsWith("12");
+		Iterator iterator2 = customerCollection.filterIterator(secondPredicate);
+
+		while (iterator2.hasNext()) {
+			System.out.println(iterator2.next());
+		}
+
+		// SkipIterator
+		System.out.println();
+		System.out.println("------------Skip Iterator---------------");
+
+		Iterator iterator3 = customerCollection.skipIterator();
+
+		while (iterator3.hasNext()) {
+			System.out.println(iterator3.next());
+		}
+
+	}
 }
